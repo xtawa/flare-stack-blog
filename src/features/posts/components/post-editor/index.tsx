@@ -360,8 +360,9 @@ export function PostEditor({ initialData, onSave }: PostEditorProps) {
             {/* Editor Area */}
             <div className="min-h-[60vh] pb-32">
               <Editor
+                key={initialData.id}
                 extensions={extensions}
-                content={post.contentJson ?? ""}
+                content={initialData.contentJson ?? ""}
                 onChange={handleContentChange}
                 onCreated={setEditorInstance}
               />

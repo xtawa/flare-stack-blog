@@ -1,5 +1,5 @@
 import { EditorContent, useEditor } from "@tiptap/react";
-import { useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import InsertModal from "./ui/insert-modal";
 import EditorToolbar from "./ui/editor-toolbar";
 import { TableBubbleMenu } from "./ui/table-bubble-menu";
@@ -18,7 +18,7 @@ interface EditorProps {
   extensions: Extensions;
 }
 
-export function Editor({
+export const Editor = memo(function Editor({
   content,
   onChange,
   onCreated,
@@ -95,4 +95,4 @@ export function Editor({
       />
     </div>
   );
-}
+});
