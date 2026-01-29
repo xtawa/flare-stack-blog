@@ -134,8 +134,17 @@ export async function handleImageRequest(
     const origin = url.origin;
     const sourceImageUrl = `${origin}/images/${key}?original=true`;
 
+    const subRequestHeaders = new Headers();
+
+    const headersToKeep = ["user-agent", "accept"];
+    for (const [k, v] of request.headers.entries()) {
+      if (headersToKeep.includes(k.toLowerCase())) {
+        subRequestHeaders.set(k, v);
+      }
+    }
+
     const imageRequest = new Request(sourceImageUrl, {
-      headers: request.headers,
+      headers: subRequestHeaders,
     });
 
     // 调用 Cloudflare Images 变换
@@ -145,26 +154,25 @@ export async function handleImageRequest(
 
     // 如果变换失败 (如格式不支持)，降级回原图
     if (!response.ok) {
+      console.error(
+        `Image transform failed with status ${response.status}: ${response.statusText}`,
+      );
       return await serveOriginal();
     }
 
     // 4. 返回处理后的图片
-    const newHeaders = new Headers(response.headers);
+    // 使用 new Response(response.body, response) 保持状态码和其它优化头信息
+    const newResponse = new Response(response.body, response);
 
-    // 设置缓存头
+    // 覆盖/补充必要的缓存头
+    newResponse.headers.set("Vary", "Accept");
     Object.entries(CACHE_CONTROL.immutable).forEach(([k, v]) => {
-      newHeaders.set(k, v);
+      newResponse.headers.set(k, v);
     });
-    if (!newHeaders.has("Vary")) {
-      newHeaders.set("Vary", "Accept");
-    }
 
-    return new Response(response.body, {
-      status: response.status,
-      headers: newHeaders,
-    });
+    return newResponse;
   } catch (e) {
-    console.error("Image transform failed:", e);
+    console.error("Image transform failed with error:", e);
     return await serveOriginal();
   }
 }
