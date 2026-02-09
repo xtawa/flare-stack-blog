@@ -9,21 +9,21 @@
   },
   "routes": [
     {
-      "pattern": "blog.zcwww.cc",
+      "pattern": "DOMAIN_PLACEHOLDER",
       "custom_domain": true,
     },
   ],
   "d1_databases": [
     {
       "binding": "DB",
-      "database_id": "05bac3e5-d0d2-44c7-9b6f-2710d18966d3",
+      "database_id": "D1_DATABASE_ID",
       "migrations_dir": "migrations",
       "remote": true,
     },
   ],
   "r2_buckets": [
     {
-      "bucket_name": "flare-blog",
+      "bucket_name": "bucket-name-placeholder",
       "binding": "R2",
       "remote": true,
     },
@@ -31,7 +31,7 @@
   "kv_namespaces": [
     {
       "binding": "KV",
-      "id": "1eac31228b3b4f469e25b4979423845b",
+      "id": "KV_NAMESPACE_ID",
       "remote": true,
     },
   ],
