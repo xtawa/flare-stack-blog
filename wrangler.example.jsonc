@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "my-blog",
-  "compatibility_date": "2025-10-11",
+  "compatibility_date": "2026-02-17",
   "compatibility_flags": ["nodejs_compat"],
   "main": "./src/server.ts",
   "observability": {
@@ -58,6 +58,10 @@
         "name": "RATE_LIMITER",
         "class_name": "RateLimiter",
       },
+      {
+        "name": "PASSWORD_HASHER",
+        "class_name": "PasswordHasher",
+      },
     ],
   },
   "ai": {
@@ -80,6 +84,10 @@
       "tag": "rate-limiter-v1",
       "new_sqlite_classes": ["RateLimiter"],
     },
+    {
+      "tag": "password-hasher-v1",
+      "new_sqlite_classes": ["PasswordHasher"],
+    },
   ],
   "env": {
     "test": {
@@ -88,6 +96,10 @@
           {
             "name": "RATE_LIMITER",
             "class_name": "RateLimiter",
+          },
+          {
+            "name": "PASSWORD_HASHER",
+            "class_name": "PasswordHasher",
           },
         ],
       },
